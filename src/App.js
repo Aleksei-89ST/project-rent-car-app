@@ -3,6 +3,7 @@ import Header from "./components/Header";
 import Sort from "./components/Sort";
 import "./scss/app.scss";
 import CarBlock from "./components/CarBlock";
+import cars from "./assets/car.json";
 
 function App() {
   return (
@@ -15,9 +16,11 @@ function App() {
             <Sort />
           </div>
           <h2 className="content__title">Все автомобили</h2>
-          <div className="content__items"></div>
-          <CarBlock title="BMW" price={150.000}/>
-          <CarBlock title="AUDI" price={125.000}/>
+          <div className="content__items">
+            {cars.map((obj, i) => (
+              <CarBlock key={i} {...obj} />
+            ))}
+          </div>
         </div>
       </div>
     </div>

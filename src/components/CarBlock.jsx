@@ -1,30 +1,38 @@
 import React, { useState } from "react";
 
-const CarBlock = ({title,price}) => {
-    const [carCount , setCarCount] = useState(0)
+const CarBlock = ({
+  title,
+  price,
+  imageUrl,
+  types,
+  category,
+  desc,
+  id,
+  rating,
+}) => {
+  const [activeType,setActiveTypes] = useState(0);
+  const [activeSize,setActiveSize] = useState(0);
+  const typeNames = ['трансфер' , 'с водителем'];
 
   return (
     <div className="pizza-block">
-      <img
-        className="pizza-block__image"
-        src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTMegR96TvFTb_RmtL_8QTH5kWEksMC27vFwA&usqp=CAU"
-        alt="Pizza"
-      />
+      <img className="pizza-block__image" src={imageUrl} alt="Pizza" />
       <h4 className="pizza-block__title">{title}</h4>
       <div className="pizza-block__selector">
         <ul>
-          <li className="active">в кредит %</li>
-          <li>новые</li>
+        {types.map((typeId) => (
+            <li onClick={() => setActiveTypes(typeId)} className={activeType === typeId ? "active" : ''} key={typeId}>{typeNames[typeId]}</li>
+          ))}
         </ul>
         <ul>
-          <li className="active">26</li>
-          <li>30</li>
-          <li>40</li>
+          {desc.map((obj, i) => (
+            <li onClick={() => setActiveSize(i)} className={activeSize === i ? "active" : ''} key={i}>{obj}</li>
+          ))}
         </ul>
       </div>
       <div className="pizza-block__bottom">
         <div className="pizza-block__price">от {price} $</div>
-        <button onClick={() => setCarCount(carCount + 1)} className=" button button--outline button--add">
+        <button  className="button button--outline button--add">
           <svg
             width="12"
             height="12"
@@ -38,7 +46,7 @@ const CarBlock = ({title,price}) => {
             />
           </svg>
           <span>Добавить</span>
-          <i>{carCount}</i>
+          <i>0</i>
         </button>
       </div>
     </div>
