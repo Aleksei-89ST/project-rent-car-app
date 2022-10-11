@@ -1,14 +1,14 @@
-import logoSvg from "../assets/img/drive-2.webp";
+import logoSvg from "../assets/img/car.webp";
 
 const Header = () => {
     return (
       <div className="header">
         <div className="container">
           <div className="header__logo">
-            <img width="38" src={logoSvg} alt="Pizza logo" />
+            <img width="15%" src={logoSvg} alt="Pizza logo" />
             <div>
-              <h1>Rent Cars</h1>
-              <p> Мы - самый крутой прокат авто в мире! </p>
+              <h1>Rent VIP Cars in Batumi</h1>
+              <p> Мы - самый крутой прокат авто в Грузии! </p>
             </div>
           </div>
           <div className="header__cart">
