@@ -1,16 +1,19 @@
+import { Link } from "react-router-dom";
 import logoSvg from "../assets/img/car.webp";
 
 const Header = () => {
     return (
       <div className="header">
         <div className="container">
-          <div className="header__logo">
+        <Link to="/">
+        <div className="header__logo">
             <img width="15%" src={logoSvg} alt="Pizza logo" />
             <div>
               <h1>Rent VIP Cars in Batumi</h1>
               <p> Мы - самый крутой прокат авто в Грузии! </p>
             </div>
           </div>
+        </Link>
           <div className="header__cart">
             <a href="/cart.html" className="button button--cart">
               <span>0 $</span>
