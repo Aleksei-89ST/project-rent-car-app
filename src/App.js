@@ -3,9 +3,16 @@ import Header from "./components/Header";
 import Sort from "./components/Sort";
 import "./scss/app.scss";
 import CarBlock from "./components/CarBlock";
-import cars from "./assets/car.json";
+import { useEffect, useState } from "react";
 
 function App() {
+  const [cars, setCars] = useState([]);
+  useEffect(() => {
+    fetch("https://6345b8b7745bd0dbd36fe0af.mockapi.io/item")
+      .then((res) => res.json())
+      .then((data) => setCars(data));
+  }, []);
+
   return (
     <div className="wrapper">
       <Header />
@@ -17,8 +24,8 @@ function App() {
           </div>
           <h2 className="content__title">Все автомобили</h2>
           <div className="content__items">
-            {cars.map((obj, i) => (
-              <CarBlock key={i} {...obj} />
+            {cars.map((obj) => (
+              <CarBlock key={obj.id} {...obj} />
             ))}
           </div>
         </div>
