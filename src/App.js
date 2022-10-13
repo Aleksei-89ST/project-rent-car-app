@@ -3,7 +3,6 @@ import Header from "./components/Header";
 import NotFoundBlock from "./components/NotFoundBlock";
 import Cart from "./pages/Cart";
 import Home from "./pages/Home";
-import NotFound from "./pages/NotFound";
 import "./scss/app.scss";
 
 function App() {
@@ -11,13 +10,11 @@ function App() {
     <div className="wrapper">
       <Header />
       <div className="content">
-        <div className="container">
-          <Routes>
-       <Route path="/" element={<Home/>}/> 
-       <Route path="/cart" element={<Cart/>}/> 
-       <Route path="*" element={<NotFoundBlock/>}/>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/cart" element={<Cart />} />
+          <Route path="*" element={<NotFoundBlock />} />
         </Routes>
-        </div>
       </div>
     </div>
   );
