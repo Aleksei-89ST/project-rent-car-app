@@ -4,9 +4,12 @@ import Sort from "../components/Sort";
 import "../scss/app.scss";
 import CarBlock from "../components/CarBlock";
 import Skeleton from "../components/CarBlock/Skeleton";
+import Pagination from "../components/Pagination";
+
 
 const Home = ({ searchValue }) => {
   const [categoryId, setCategoryId] = useState(0);
+  const [currentPage , setCurrentPage] = useState(1);
   const [sortType, setSortType] = useState({
     name: "популярности",
     sortProperty: "rating",
@@ -21,7 +24,7 @@ const Home = ({ searchValue }) => {
     const category = categoryId > 0 ? `category=${categoryId}` : "";
     const search = searchValue > 0 ? `&search=${searchValue}` : "";
     fetch(
-      `https://6345b8b7745bd0dbd36fe0af.mockapi.io/item?${category}&sortBy=${sortBy}&order=${order}${search}`
+      `https://63492c050b382d796c7f6bf1.mockapi.io/items?page=${currentPage}&limit=4&${category}&sortBy=${sortBy}&order=${order}${search}`
     )
       .then((res) => res.json())
       .then((data) => {
@@ -29,7 +32,7 @@ const Home = ({ searchValue }) => {
         setIsLoading(false);
       });
     window.scrollTo(0, 0);
-  }, [categoryId, sortType,searchValue]);
+  }, [categoryId, sortType,searchValue,currentPage]);
 
   const carsItems = cars.filter(obj => {
     if(obj.title.toLowerCase().includes(searchValue.toLowerCase())) {
@@ -53,6 +56,7 @@ return true;
           ? skeletons
           : carsItems}
       </div>
+      <Pagination onChangePage={(number) => setCurrentPage(number)}/>
     </div>
   );
 };

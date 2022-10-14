@@ -36,7 +36,7 @@ body {
   &__items {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    grid-template-rows: repeat(3, 1fr);
+    grid-template-rows: repeat(1, 1fr);
     grid-column-gap: 10px;
   }
 
