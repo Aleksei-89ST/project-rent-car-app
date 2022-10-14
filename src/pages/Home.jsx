@@ -1,13 +1,15 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import Categories from "../components/Categories";
 import Sort from "../components/Sort";
 import "../scss/app.scss";
 import CarBlock from "../components/CarBlock";
 import Skeleton from "../components/CarBlock/Skeleton";
 import Pagination from "../components/Pagination";
+import { SearchContext } from "../App";
 
 
-const Home = ({ searchValue }) => {
+const Home = () => {
+  const {searchValue} = useContext(SearchContext)
   const [categoryId, setCategoryId] = useState(0);
   const [currentPage , setCurrentPage] = useState(1);
   const [sortType, setSortType] = useState({

@@ -1,9 +1,11 @@
-import React from "react";
+import React, { useContext } from "react";
 import styles from "./Search.module.scss";
 import { FiSearch } from "react-icons/fi";
 import { GrClose } from "react-icons/gr";
+import { SearchContext } from "../../App";
 
-const Search = ({ searchValue, setSearchValue }) => {
+const Search = () => {
+  const {searchValue,setSearchValue} = useContext(SearchContext)
   return (
     <div className={styles.root}>
       <FiSearch className={styles.icon} />
