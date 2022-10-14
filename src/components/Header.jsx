@@ -1,7 +1,8 @@
 import { Link } from "react-router-dom";
 import logoSvg from "../assets/img/car.webp";
+import Search from "./Search";
 
-const Header = () => {
+const Header = ({searchValue,setSearchValue}) => {
     return (
       <div className="header">
         <div className="container">
@@ -14,6 +15,7 @@ const Header = () => {
             </div>
           </div>
         </Link>
+        <Search searchValue={searchValue} setSearchValue={setSearchValue}/>
           <div className="header__cart">
             <a href="/cart.html" className="button button--cart">
               <span>0 $</span>
