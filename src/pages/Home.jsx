@@ -6,23 +6,23 @@ import CarBlock from "../components/CarBlock";
 import Skeleton from "../components/CarBlock/Skeleton";
 import Pagination from "../components/Pagination";
 import { SearchContext } from "../App";
-
+import { useDispatch, useSelector } from "react-redux";
+import { setCategoryId } from "../redux/slices/filterSlice";
 
 const Home = () => {
-  const {searchValue} = useContext(SearchContext)
-  const [categoryId, setCategoryId] = useState(0);
-  const [currentPage , setCurrentPage] = useState(1);
-  const [sortType, setSortType] = useState({
-    name: "популярности",
-    sortProperty: "rating",
-  });
-  
+  const {categoryId,sort} = useSelector((state) => state.filter);
+  const dispatch = useDispatch();
+  const { searchValue } = useContext(SearchContext);
+  const [currentPage, setCurrentPage] = useState(1);
+  const onChangeCategory = (id) => {
+    dispatch(setCategoryId(id));
+  };
   const [isLoading, setIsLoading] = useState(true);
   const [cars, setCars] = useState([]);
   useEffect(() => {
     setIsLoading(true);
-    const order = sortType.sortProperty.includes("-") ? "asc" : "desc";
-    const sortBy = sortType.sortProperty.replace("-", "");
+    const order = sort.sortProperty.includes("-") ? "asc" : "desc";
+    const sortBy = sort.sortProperty.replace("-", "");
     const category = categoryId > 0 ? `category=${categoryId}` : "";
     const search = searchValue > 0 ? `&search=${searchValue}` : "";
     fetch(
@@ -34,31 +34,31 @@ const Home = () => {
         setIsLoading(false);
       });
     window.scrollTo(0, 0);
-  }, [categoryId, sortType,searchValue,currentPage]);
+  }, [categoryId, sort.sortProperty, searchValue, currentPage]);
 
-  const carsItems = cars.filter(obj => {
-    if(obj.title.toLowerCase().includes(searchValue.toLowerCase())) {
-return true;
-    }
-    return false;
-  }).map((obj) => <CarBlock key={obj.id} {...obj} />);
-  const skeletons = [...new Array(9)].map((_, index) => <Skeleton key={index} />)
+  const carsItems = cars
+    .filter((obj) => {
+      if (obj.title.toLowerCase().includes(searchValue.toLowerCase())) {
+        return true;
+      }
+      return false;
+    })
+    .map((obj) => <CarBlock key={obj.id} {...obj} />);
+  const skeletons = [...new Array(9)].map((_, index) => (
+    <Skeleton key={index} />
+  ));
   return (
     <div className="container">
       <div className="content__top">
         <Categories
           valueCategory={categoryId}
-          onChangeCategory={(i) => setCategoryId(i)}
+          onChangeCategory={onChangeCategory}
         />
-        <Sort valueSort={sortType} onChangeSort={(i) => setSortType(i)} />
+        <Sort />
       </div>
       <h2 className="content__title">Все автомобили</h2>
-      <div className="content__items">
-        {isLoading
-          ? skeletons
-          : carsItems}
-      </div>
-      <Pagination onChangePage={(number) => setCurrentPage(number)}/>
+      <div className="content__items">{isLoading ? skeletons : carsItems}</div>
+      <Pagination onChangePage={(number) => setCurrentPage(number)} />
     </div>
   );
 };
