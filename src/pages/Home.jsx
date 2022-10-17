@@ -8,6 +8,7 @@ import Pagination from "../components/Pagination";
 import { SearchContext } from "../App";
 import { useDispatch, useSelector } from "react-redux";
 import { setCategoryId } from "../redux/slices/filterSlice";
+import axios from "axios";
 
 const Home = () => {
   const {categoryId,sort} = useSelector((state) => state.filter);
@@ -19,20 +20,19 @@ const Home = () => {
   };
   const [isLoading, setIsLoading] = useState(true);
   const [cars, setCars] = useState([]);
+  
   useEffect(() => {
     setIsLoading(true);
     const order = sort.sortProperty.includes("-") ? "asc" : "desc";
     const sortBy = sort.sortProperty.replace("-", "");
     const category = categoryId > 0 ? `category=${categoryId}` : "";
     const search = searchValue > 0 ? `&search=${searchValue}` : "";
-    fetch(
-      `https://63492c050b382d796c7f6bf1.mockapi.io/items?page=${currentPage}&limit=4&${category}&sortBy=${sortBy}&order=${order}${search}`
-    )
-      .then((res) => res.json())
-      .then((data) => {
-        setCars(data);
-        setIsLoading(false);
-      });
+
+    axios.get(`https://63492c050b382d796c7f6bf1.mockapi.io/items?page=${currentPage}&limit=4&${category}&sortBy=${sortBy}&order=${order}${search}`)
+    .then(res => {
+      setCars(res.data);
+      setIsLoading(false);
+});
     window.scrollTo(0, 0);
   }, [categoryId, sort.sortProperty, searchValue, currentPage]);
 
