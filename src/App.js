@@ -9,6 +9,7 @@ import "./scss/app.scss";
 export const SearchContext = createContext('');
 
 function App() {
+  // стейт для поиска на беке (mockapi)
   const [searchValue,setSearchValue] = useState('')
   return (
     <div className="wrapper">
