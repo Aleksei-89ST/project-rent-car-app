@@ -7,17 +7,20 @@ import Skeleton from "../components/CarBlock/Skeleton";
 import Pagination from "../components/Pagination";
 import { SearchContext } from "../App";
 import { useDispatch, useSelector } from "react-redux";
-import { setCategoryId } from "../redux/slices/filterSlice";
+import { setCategoryId, setCurrentPage } from "../redux/slices/filterSlice";
 import axios from "axios";
 
 const Home = () => {
-  const {categoryId,sort} = useSelector((state) => state.filter);
+  const {categoryId,sort,currentPage} = useSelector((state) => state.filter);
   const dispatch = useDispatch();
   const { searchValue } = useContext(SearchContext);
-  const [currentPage, setCurrentPage] = useState(1);
+  // const [currentPage, setCurrentPage] = useState(1);
   const onChangeCategory = (id) => {
     dispatch(setCategoryId(id));
   };
+  const onChangePage = number => {
+    dispatch(setCurrentPage(number));
+  }
   const [isLoading, setIsLoading] = useState(true);
   const [cars, setCars] = useState([]);
   
@@ -58,7 +61,7 @@ const Home = () => {
       </div>
       <h2 className="content__title">Все автомобили</h2>
       <div className="content__items">{isLoading ? skeletons : carsItems}</div>
-      <Pagination onChangePage={(number) => setCurrentPage(number)} />
+      <Pagination currentPage={currentPage} onChangePage={onChangePage} />
     </div>
   );
 };
