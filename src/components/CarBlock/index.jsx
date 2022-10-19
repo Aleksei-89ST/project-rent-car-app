@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { addItem } from "../../redux/slices/cartSlice";
 
-const typeNames = ["трансфер", "с водителем"];
+const typeNames = ["автомат", "механика"];
 
 const CarBlock = ({  id, title, price, imageUrl, sizes, types}) => {
   const dispatch = useDispatch();
