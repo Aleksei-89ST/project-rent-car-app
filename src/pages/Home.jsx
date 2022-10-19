@@ -96,7 +96,7 @@ const Home = () => {
       return false;
     })
     .map((obj) => <CarBlock key={obj.id} {...obj} />);
-  const skeletons = [...new Array(9)].map((_, index) => (
+  const skeletons = [...new Array(8)].map((_, index) => (
     <Skeleton key={index} />
   ));
   return (
