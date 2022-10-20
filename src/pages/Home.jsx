@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef } from "react";
 import Categories from "../components/Categories";
 import Sort, { list } from "../components/Sort";
 import qs from "qs";
@@ -13,17 +13,17 @@ import {
   setFilters,
 } from "../redux/slices/filterSlice";
 import "../scss/app.scss";
-import { fetchCars, selectorCart } from "../redux/slices/carSlice";
+import { fetchCars } from "../redux/slices/carSlice";
 
 const Home = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const isSearch = useRef(false);
   const isMounted = useRef(false);
-  const { categoryId, sort, currentPage,searchValue } = useSelector(
+  const { categoryId, sort, currentPage ,searchValue} = useSelector(
     (state) => state.filter
   );
-  const { items, status } = useSelector(selectorCart);
+  const { items, status } = useSelector((state) => state.car);
 
   const onChangeCategory = (id) => {
     dispatch(setCategoryId(id));
