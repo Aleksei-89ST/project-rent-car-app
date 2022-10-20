@@ -1,24 +1,25 @@
-import React, { useCallback, useContext, useRef, useState } from "react";
+import React, { useCallback, useRef, useState } from "react";
 import debounce from "lodash.debounce";
 import { FiSearch } from "react-icons/fi";
 import { GrClose } from "react-icons/gr";
-import { SearchContext } from "../../App";
 import styles from "./Search.module.scss";
+import { useDispatch } from "react-redux";
+import { setSearchValue } from "../../redux/slices/filterSlice";
 
 const Search = () => {
+  const dispatch = useDispatch();
   // локальный стейт для быстрого отображения в инпуте
   const [value, setValue] = useState("");
   const inputRef = useRef();
-  const { setSearchValue } = useContext(SearchContext);
   const onClickInput = () => {
-    setSearchValue("");
+    dispatch(setSearchValue(""));
     setValue("");
     inputRef.current.focus();
   };
   // отложеная функция debounce и useCallback для того чтобы не терялась ссылка 
   const updateSearchValue = useCallback(
     debounce((str) => {
-      setSearchValue(str);
+      dispatch(setSearchValue(str));
     }, 150),
     []
   );
