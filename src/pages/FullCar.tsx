@@ -1,9 +1,13 @@
 import axios from "axios";
-import React, { useEffect, useState } from "react";
+import { FC, useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router";
 
-const FullCar = () => {
-  const [car, setCar] = useState();
+const FullCar: FC = () => {
+  const [car, setCar] = useState<{
+    imageUrl: string;
+    title: string;
+    price: number;
+  }>();
   const { id } = useParams();
   const navigate = useNavigate();
 
@@ -23,13 +27,13 @@ const FullCar = () => {
     fetchCars();
   }, []);
   if (!car) {
-    return "Загрузка...";
+    return <>"Загрузка..."</>;
   }
   return (
     <div className="container">
       <img className="container" src={car.imageUrl} />
       <h2>{car.title}</h2>
-      <h4>{car.price} $</h4>
+      <h3>1-day: {car.price} $ </h3>
     </div>
   );
 };
