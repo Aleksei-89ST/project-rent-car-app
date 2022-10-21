@@ -14,13 +14,14 @@ import {
 } from "../redux/slices/filterSlice";
 import "../scss/app.scss";
 import { fetchCars } from "../redux/slices/carSlice";
+import { Link } from "react-router-dom";
 
 const Home = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const isSearch = useRef(false);
   const isMounted = useRef(false);
-  const { categoryId, sort, currentPage ,searchValue} = useSelector(
+  const { categoryId, sort, currentPage, searchValue } = useSelector(
     (state) => state.filter
   );
   const { items, status } = useSelector((state) => state.car);
@@ -35,7 +36,7 @@ const Home = () => {
     const order = sort.sortProperty.includes("-") ? "asc" : "desc";
     const sortBy = sort.sortProperty.replace("-", "");
     const category = categoryId > 0 ? `category=${categoryId}` : "";
-    const search = searchValue > 0 ? `&search=${searchValue}` : "";
+    const search = searchValue ? `&search=${searchValue}` : "";
 
     // функция которая отвечает за логику данных которые находятся в асинхронном экшене редакса
     dispatch(
@@ -84,14 +85,16 @@ const Home = () => {
     getCars();
   }, [categoryId, sort.sortProperty, searchValue, currentPage]);
 
-  const carsItems = items
-    .filter((obj) => {
-      if (obj.title.toLowerCase().includes(searchValue.toLowerCase())) {
-        return true;
-      }
-      return false;
-    })
-    .map((obj) => <CarBlock key={obj.id} {...obj} />);
+  // хороший вариант для статического поиска но у меня на сервере
+  // const carsItems = items
+  //   .filter((obj) => {
+  //     if (obj.title.toLowerCase().includes(searchValue.toLowerCase())) {
+  //       return true;
+  //     }
+  //     return false;
+  //   })
+
+  const cars = items.map((obj) => <Link key={obj.id} to={`/car/${obj.id}`}><CarBlock {...obj} /></Link>);
   const skeletons = [...new Array(8)].map((_, index) => (
     <Skeleton key={index} />
   ));
@@ -115,7 +118,7 @@ const Home = () => {
         </div>
       ) : (
         <div className="content__items">
-          {status === "loading" ? skeletons : carsItems}
+          {status === "loading" ? skeletons : cars}
         </div>
       )}
 
