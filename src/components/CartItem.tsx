@@ -1,8 +1,18 @@
-import React from "react";
+import { FC } from "react";
 import { useDispatch } from "react-redux";
 import { addItem, minusItem, removeItem } from "../redux/slices/cartSlice";
 
-const CartItem = ({ id, title, price, imageUrl, types, sizes, count }) => {
+export type CartItemProps = {
+  id: string;
+  title: string;
+  price: number;
+  imageUrl: string;
+  types: string;
+  sizes: string;
+  count: number;
+}
+
+const CartItem: FC<CartItemProps> = ({ id, title, price, imageUrl, types, sizes, count }) => {
   const dispatch = useDispatch();
   const onClickPlus = () => {
     dispatch(
@@ -12,16 +22,12 @@ const CartItem = ({ id, title, price, imageUrl, types, sizes, count }) => {
     );
   };
   const onClickMinus = () => {
-    dispatch(
-      minusItem(id)
-    );
+    dispatch(minusItem(id));
   };
   const onClickRemove = () => {
-   if (window.confirm('Вы уверены, что хотите удалить? ')) {
-    dispatch(
-      removeItem(id)
-    );
-   }
+    if (window.confirm("Вы уверены, что хотите удалить? ")) {
+      dispatch(removeItem(id));
+    }
   };
   return (
     <div className="content__items">

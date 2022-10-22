@@ -1,16 +1,23 @@
-import React, { useState } from "react";
+import { FC, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { addItem } from "../../redux/slices/cartSlice";
+import { addItem, selectCartItemById } from "../../redux/slices/cartSlice";
 
 const typeNames = ["автомат", "механика"];
 
-const CarBlock = ({  id, title, price, imageUrl, sizes, types}) => {
+export type CarBlockProps = {
+  id: string;
+  title: string;
+  price: number;
+  imageUrl: string;
+  sizes: string[];
+  types: number[];
+};
+
+const CarBlock: FC<CarBlockProps> = ({ id, title, price, imageUrl, sizes, types }) => {
   const dispatch = useDispatch();
   const [activeType, setActiveType] = useState(0);
   const [activeSize, setActiveSize] = useState(0);
-  const cartItem = useSelector((state) =>
-    state.cart.items.find((obj) => obj.id === id)
-  );
+  const cartItem = useSelector(selectCartItemById(id));
   const addedCount = cartItem ? cartItem.count : 0;
 
   const onClickAdd = () => {
@@ -57,7 +64,7 @@ const CarBlock = ({  id, title, price, imageUrl, sizes, types}) => {
           </ul>
         </div>
         <div className="pizza-block__bottom">
-          <div className="pizza-block__price">от {price} $</div>
+          <div className="pizza-block__price">1 day: {price} $</div>
           <button
             onClick={onClickAdd}
             className="button button--outline button--add"

@@ -1,6 +1,6 @@
-import React, { useEffect, useRef } from "react";
+import { FC, useEffect, useRef } from "react";
 import Categories from "../components/Categories";
-import Sort, { list } from "../components/Sort";
+import Sort, { sortList } from "../components/Sort";
 import qs from "qs";
 import { useNavigate } from "react-router";
 import CarBlock from "../components/CarBlock";
@@ -8,29 +8,28 @@ import Skeleton from "../components/CarBlock/Skeleton";
 import Pagination from "../components/Pagination";
 import { useDispatch, useSelector } from "react-redux";
 import {
+  selectFilter,
   setCategoryId,
   setCurrentPage,
   setFilters,
 } from "../redux/slices/filterSlice";
 import "../scss/app.scss";
-import { fetchCars } from "../redux/slices/carSlice";
+import { CarsSelectData, fetchCars } from "../redux/slices/carSlice";
 import { Link } from "react-router-dom";
 
-const Home = () => {
+const Home: FC = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const isSearch = useRef(false);
   const isMounted = useRef(false);
-  const { categoryId, sort, currentPage, searchValue } = useSelector(
-    (state) => state.filter
-  );
-  const { items, status } = useSelector((state) => state.car);
+  const { categoryId, sort, currentPage, searchValue } = useSelector(selectFilter);
+  const { items, status } = useSelector(CarsSelectData);
 
-  const onChangeCategory = (id) => {
-    dispatch(setCategoryId(id));
+  const onChangeCategory = (idx:number) => {
+    dispatch(setCategoryId(idx));
   };
-  const onChangePage = (number) => {
-    dispatch(setCurrentPage(number));
+  const onChangePage = (page:number) => {
+    dispatch(setCurrentPage(page));
   };
   const getCars = async () => {
     const order = sort.sortProperty.includes("-") ? "asc" : "desc";
@@ -40,6 +39,7 @@ const Home = () => {
 
     // функция которая отвечает за логику данных которые находятся в асинхронном экшене редакса
     dispatch(
+      // @ts-ignore
       fetchCars({
         order,
         sortBy,
@@ -68,7 +68,9 @@ const Home = () => {
   useEffect(() => {
     if (window.location.search) {
       const params = qs.parse(window.location.search.substring(1));
-      const sort = list.find((obj) => obj.sortProperty === params.sortProperty);
+      const sort = sortList.find(
+        (obj) => obj.sortProperty === params.sortProperty
+      );
 
       dispatch(
         setFilters({
@@ -94,7 +96,11 @@ const Home = () => {
   //     return false;
   //   })
 
-  const cars = items.map((obj) => <Link key={obj.id} to={`/car/${obj.id}`}><CarBlock {...obj} /></Link>);
+  const cars = items.map((obj:any) => (
+    <Link key={obj.id} to={`/car/${obj.id}`}>
+      <CarBlock {...obj} />
+    </Link>
+  ));
   const skeletons = [...new Array(8)].map((_, index) => (
     <Skeleton key={index} />
   ));

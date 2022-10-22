@@ -43,5 +43,7 @@ export const carSlice = createSlice({
   },
 });
 
+export const CarsSelectData = (state) => state.car;
+
 export const { setItems } = carSlice.actions;
 export default carSlice.reducer;

@@ -1,8 +1,13 @@
-import React, { useEffect, useRef, useState } from "react";
+import { FC, useEffect, useRef, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { setSort } from "../redux/slices/filterSlice";
 
-export const list = [
+export type TSortItem = {
+  name: string;
+  sortProperty: string;
+};
+
+export const sortList: TSortItem[] = [
   { name: "популярности(DESC)", sortProperty: "rating" },
   { name: "популярности(ASC)", sortProperty: "-rating" },
   { name: "цене(DESC)", sortProperty: "price" },
@@ -11,19 +16,19 @@ export const list = [
   { name: "алфавиту(ASC)", sortProperty: "-title" },
 ];
 
-const Sort = () => {
+export const Sort: FC = () => {
   //функция которая передаёт в redux action
   const dispatch = useDispatch();
-  const sort = useSelector((state) => state.filter.sort);
-  const sortRef = useRef();
+  const sort = useSelector((state:any) => state.filter.sort);
+  const sortRef = useRef<HTMLDivElement>(null);
   const [open, setOpen] = useState(false);
 
-  const onClickListItem = (obj) => {
+  const onClickListItem = (obj: TSortItem) => {
     dispatch(setSort(obj));
     setOpen(false);
   };
   useEffect(() => {
-    const handleClickOutside = (event) => {
+    const handleClickOutside = (event: any) => {
       if (!event.path.includes(sortRef.current)) {
         setOpen(false);
       }
@@ -53,7 +58,7 @@ const Sort = () => {
       {open && (
         <div className="sort__popup">
           <ul>
-            {list.map((obj, i) => (
+            {sortList.map((obj, i) => (
               <li
                 onClick={() => onClickListItem(obj)}
                 className={

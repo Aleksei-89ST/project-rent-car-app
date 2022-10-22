@@ -1,4 +1,4 @@
-import React, { useCallback, useRef, useState } from "react";
+import { FC, useCallback, useRef, useState } from "react";
 import debounce from "lodash.debounce";
 import { FiSearch } from "react-icons/fi";
 import { GrClose } from "react-icons/gr";
@@ -6,24 +6,24 @@ import styles from "./Search.module.scss";
 import { useDispatch } from "react-redux";
 import { setSearchValue } from "../../redux/slices/filterSlice";
 
-const Search = () => {
+const Search: FC = () => {
   const dispatch = useDispatch();
   // локальный стейт для быстрого отображения в инпуте
   const [value, setValue] = useState("");
-  const inputRef = useRef();
+  const inputRef = useRef<HTMLInputElement>(null);
   const onClickInput = () => {
     dispatch(setSearchValue(""));
     setValue("");
-    inputRef.current.focus();
+    inputRef.current?.focus();
   };
   // отложеная функция debounce и useCallback для того чтобы не терялась ссылка 
   const updateSearchValue = useCallback(
-    debounce((str) => {
+    debounce((str:string) => {
       dispatch(setSearchValue(str));
     }, 150),
     []
   );
-  const onChangeInput = (event) => {
+  const onChangeInput = (event:any) => {
     setValue(event.target.value);
     updateSearchValue(event.target.value);
     setSearchValue("");

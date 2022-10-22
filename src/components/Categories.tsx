@@ -1,6 +1,11 @@
-import React from "react";
+import { FC } from "react";
 
-const Categories = ({valueCategory,onChangeCategory}) => {
+export type CategoriesProps = {
+  valueCategory: number;
+  onChangeCategory: any;
+}
+
+const Categories: FC<CategoriesProps> = ({valueCategory,onChangeCategory}) => {
   const categories = ["Все", "спортивные", "седаны", "VIP", "джипы"];
  
   return (
