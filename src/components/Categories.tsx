@@ -1,13 +1,17 @@
 import { FC } from "react";
 
+const categories = ["Все", "спортивные", "седаны", "VIP", "джипы"];
+
 export type CategoriesProps = {
   valueCategory: number;
-  onChangeCategory: any;
-}
+  onChangeCategory: (idx: number) => void;
+};
 
-const Categories: FC<CategoriesProps> = ({valueCategory,onChangeCategory}) => {
-  const categories = ["Все", "спортивные", "седаны", "VIP", "джипы"];
- 
+const Categories: FC<CategoriesProps> = ({
+  valueCategory,
+  onChangeCategory,
+}) => {
+
   return (
     <div className="categories">
       <ul>
