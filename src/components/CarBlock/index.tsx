@@ -1,6 +1,11 @@
 import { FC, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { addItem, selectCartItemById } from "../../redux/slices/cartSlice";
+import { Link } from "react-router-dom";
+import {
+  addItem,
+  CartItem,
+  selectCartItemById,
+} from "../../redux/slices/cartSlice";
 
 const typeNames = ["автомат", "механика"];
 
@@ -11,9 +16,17 @@ export type CarBlockProps = {
   imageUrl: string;
   sizes: string[];
   types: number[];
+  rating: number;
 };
 
-const CarBlock: FC<CarBlockProps> = ({ id, title, price, imageUrl, sizes, types }) => {
+const CarBlock: FC<CarBlockProps> = ({
+  id,
+  title,
+  price,
+  imageUrl,
+  sizes,
+  types,
+}) => {
   const dispatch = useDispatch();
   const [activeType, setActiveType] = useState(0);
   const [activeSize, setActiveSize] = useState(0);
@@ -21,13 +34,14 @@ const CarBlock: FC<CarBlockProps> = ({ id, title, price, imageUrl, sizes, types 
   const addedCount = cartItem ? cartItem.count : 0;
 
   const onClickAdd = () => {
-    const item = {
+    const item: CartItem = {
       id,
       title,
       price,
       imageUrl,
       types: typeNames[activeType],
       sizes: sizes[activeSize],
+      count: 0,
     };
     dispatch(addItem(item));
   };
@@ -35,8 +49,10 @@ const CarBlock: FC<CarBlockProps> = ({ id, title, price, imageUrl, sizes, types 
   return (
     <div className="pizza-block-wrapper">
       <div className="pizza-block">
+      <Link key={id} to={`/car/${id}`}>
         <img className="pizza-block__image" src={imageUrl} alt="Pizza" />
         <h4 className="pizza-block__title">{title}</h4>
+        </Link>
         <div className="pizza-block__selector">
           <ul>
             {types.map((typeId) => (
@@ -64,7 +80,7 @@ const CarBlock: FC<CarBlockProps> = ({ id, title, price, imageUrl, sizes, types 
           </ul>
         </div>
         <div className="pizza-block__bottom">
-          <div className="pizza-block__price">1 day: {price} $</div>
+          <div className="pizza-block__price">От: {price} $</div>
           <button
             onClick={onClickAdd}
             className="button button--outline button--add"

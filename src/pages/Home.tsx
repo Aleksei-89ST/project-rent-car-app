@@ -1,34 +1,32 @@
-import { FC, useEffect, useRef } from "react";
-import Categories from "../components/Categories";
-import Sort, { sortList } from "../components/Sort";
-import qs from "qs";
-import { useNavigate } from "react-router";
+import { FC, useEffect } from "react";
+import { useSelector } from "react-redux";
 import CarBlock from "../components/CarBlock";
 import Skeleton from "../components/CarBlock/Skeleton";
+import Categories from "../components/Categories";
 import Pagination from "../components/Pagination";
-import { useDispatch, useSelector } from "react-redux";
+import Sort from "../components/Sort";
+import { CarsSelectData, fetchCars } from "../redux/slices/carSlice";
 import {
   selectFilter,
   setCategoryId,
-  setCurrentPage,
-  setFilters,
+  setCurrentPage
 } from "../redux/slices/filterSlice";
+import { useAppDispatch } from "../redux/store";
 import "../scss/app.scss";
-import { CarsSelectData, fetchCars } from "../redux/slices/carSlice";
-import { Link } from "react-router-dom";
 
 const Home: FC = () => {
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
-  const isSearch = useRef(false);
-  const isMounted = useRef(false);
-  const { categoryId, sort, currentPage, searchValue } = useSelector(selectFilter);
+  const dispatch = useAppDispatch();
+  // const navigate = useNavigate();
+  // const isSearch = useRef(false);
+  // const isMounted = useRef(false);
+  const { categoryId, sort, currentPage, searchValue } =
+    useSelector(selectFilter);
   const { items, status } = useSelector(CarsSelectData);
 
-  const onChangeCategory = (idx:number) => {
+  const onChangeCategory = (idx: number) => {
     dispatch(setCategoryId(idx));
   };
-  const onChangePage = (page:number) => {
+  const onChangePage = (page: number) => {
     dispatch(setCurrentPage(page));
   };
   const getCars = async () => {
@@ -39,68 +37,55 @@ const Home: FC = () => {
 
     // функция которая отвечает за логику данных которые находятся в асинхронном экшене редакса
     dispatch(
-      // @ts-ignore
       fetchCars({
         order,
         sortBy,
         category,
         search,
-        currentPage,
+        currentPage:String(currentPage),
       })
     );
     window.scrollTo(0, 0);
   };
 
-  // Если изменились параметры и был первый рендер то делаю это
-  useEffect(() => {
-    if (isMounted.current) {
-      const queryString = qs.stringify({
-        sortProperty: sort.sortProperty,
-        categoryId,
-        currentPage,
-      });
-      navigate(`?${queryString}`);
-    }
-    isMounted.current = true;
-  }, [categoryId, sort.sortProperty, searchValue, currentPage]);
+  // // Если изменились параметры и был первый рендер то делаю это
+  // useEffect(() => {
+  //   if (isMounted.current) {
+  //     const queryString = qs.stringify({
+  //       sortProperty: sort.sortProperty,
+  //       categoryId,
+  //       currentPage,
+  //     });
+  //     navigate(`?${queryString}`);
+  //   }
+  //   isMounted.current = true;
+  // }, [categoryId, sort.sortProperty, searchValue, currentPage]);
 
-  // Если был первый рендер,то проверяю параметры и сохраняю в редуксе
-  useEffect(() => {
-    if (window.location.search) {
-      const params = qs.parse(window.location.search.substring(1));
-      const sort = sortList.find(
-        (obj) => obj.sortProperty === params.sortProperty
-      );
+  // // Если был первый рендер,то проверяю параметры и сохраняю в редуксе
+  // useEffect(() => {
+  //   if (window.location.search) {
+  //     const params = qs.parse(window.location.search.substring(1)) as unknown as SearchCarParams;
+  //     const sort = sortList.find(
+  //       (obj) => obj.sortProperty === params.sortBy
+  //     );
 
-      dispatch(
-        setFilters({
-          ...params,
-          sort,
-        })
-      );
-      isSearch.current = true;
-    }
-  }, []);
+  //     dispatch(setFilters({
+  //       searchValue: params.search,
+  //       categoryId:Number(params.category),
+  //       currentPage: Number(params.currentPage),
+  //       sort: sort || sortList[0]
+  //     }));
+  //     // isSearch.current = true;
+  //   }
+  //   isMounted.current = true;
+  // }, []);
 
   // Если был первый рендер то запрашиваю автомобили
   useEffect(() => {
     getCars();
   }, [categoryId, sort.sortProperty, searchValue, currentPage]);
 
-  // хороший вариант для статического поиска но у меня на сервере
-  // const carsItems = items
-  //   .filter((obj) => {
-  //     if (obj.title.toLowerCase().includes(searchValue.toLowerCase())) {
-  //       return true;
-  //     }
-  //     return false;
-  //   })
-
-  const cars = items.map((obj:any) => (
-    <Link key={obj.id} to={`/car/${obj.id}`}>
-      <CarBlock {...obj} />
-    </Link>
-  ));
+  const cars = items.map((obj: any) => <CarBlock {...obj} key={obj.id}/>);
   const skeletons = [...new Array(8)].map((_, index) => (
     <Skeleton key={index} />
   ));
