@@ -75,7 +75,7 @@ body {
         }
       }
     }
-    @media(max-width: 760px) {
+    @media (max-width: 760px) {
       .categories {
         ul {
           li {
@@ -88,7 +88,7 @@ body {
       .categories {
         margin-top: 30px;
       }
-flex-direction: column-reverse;
+      flex-direction: column-reverse;
     }
   }
 }
@@ -214,6 +214,24 @@ flex-direction: column-reverse;
         svg {
           path:first-of-type {
             display: none;
+          }
+        }
+        &:disabled {
+          pointer-events: none;
+          opacity: 0.4;
+          border-color: #787878;
+
+          &:active {
+            transform: none;
+          }
+          &:hover {
+            background-color: transparent;
+            svg path {
+              fill: #787878;
+            }
+          }
+          svg path {
+            fill: #787878;
           }
         }
       }
