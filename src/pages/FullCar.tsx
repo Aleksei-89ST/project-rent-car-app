@@ -31,7 +31,7 @@ const FullCar: FC = () => {
   }
   return (
     <div className="container">
-      <img className="container" src={car.imageUrl} />
+      <img className="container" src={car.imageUrl} alt="fullcar"/>
       <h2>{car.title}</h2>
       <h3>1-day: {car.price} $ </h3>
     </div>

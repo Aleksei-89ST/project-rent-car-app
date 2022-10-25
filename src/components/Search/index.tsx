@@ -4,7 +4,8 @@ import { FiSearch } from "react-icons/fi";
 import { GrClose } from "react-icons/gr";
 import styles from "./Search.module.scss";
 import { useDispatch } from "react-redux";
-import { setSearchValue } from "../../redux/slices/filterSlice";
+import { setSearchValue } from "../../redux/filter/slice";
+
 
 const Search: FC = () => {
   const dispatch = useDispatch();

@@ -5,12 +5,12 @@ import Skeleton from "../components/CarBlock/Skeleton";
 import Categories from "../components/Categories";
 import Pagination from "../components/Pagination";
 import Sort from "../components/Sort";
-import { CarsSelectData, fetchCars } from "../redux/slices/carSlice";
-import {
-  selectFilter,
-  setCategoryId,
-  setCurrentPage,
-} from "../redux/slices/filterSlice";
+import { fetchCars } from "../redux/car/asyncActions";
+import { CarsSelectData } from "../redux/car/selectors";
+import { selectFilter } from "../redux/filter/selectors";
+import { setCategoryId, setCurrentPage } from "../redux/filter/slice";
+
+
 import { useAppDispatch } from "../redux/store";
 import "../scss/app.scss";
 
@@ -61,7 +61,7 @@ const Home: FC = () => {
   //   isMounted.current = true;
   // }, [categoryId, sort.sortProperty, searchValue, currentPage]);
 
-  // // Если был первый рендер,то проверяю параметры и сохраняю в редуксе
+  // // Если был первый рендер,то проверяю параметры и сохраняю в редaксе
   // useEffect(() => {
   //   if (window.location.search) {
   //     const params = qs.parse(window.location.search.substring(1)) as unknown as SearchCarParams;

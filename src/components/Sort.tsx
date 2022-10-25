@@ -1,7 +1,10 @@
 import { FC, memo, useEffect, useRef, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { setSort, SortPropertyEnum } from "../redux/slices/filterSlice";
-import { RootState } from "../redux/store";
+import { selectSort } from "../redux/filter/selectors";
+import { setSort } from "../redux/filter/slice";
+import { SortPropertyEnum } from "../redux/filter/types";
+
+
 
 export type TSortItem = {
   name: string;
@@ -20,7 +23,7 @@ export const sortList: TSortItem[] = [
 export const Sort: FC = memo(() => {
   //функция которая передаёт в redux action
   const dispatch = useDispatch();
-  const sort = useSelector((state: RootState) => state.filter.sort);
+  const sort = useSelector(selectSort);
   const sortRef = useRef<HTMLDivElement>(null);
   const [open, setOpen] = useState(false);
 

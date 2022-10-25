@@ -2,12 +2,22 @@ import { Link, useLocation } from "react-router-dom";
 import logoSvg from "../assets/img/car.webp";
 import Search from "./Search";
 import { useSelector } from "react-redux";
-import { selectorCart } from "../redux/slices/cartSlice";
+import { useEffect, useRef } from "react";
+import { selectorCart } from "../redux/cart/selectors";
 
 const Header = () => {
   const { items, totalPrice } = useSelector(selectorCart);
-  const totalCount = items.reduce((sum, item) => sum + item.count, 0);
+  const totalCount = items.reduce((sum:number, item:any) => sum + item.count, 0);
   const location = useLocation();
+  const isMounted = useRef(false);
+
+  useEffect(() => {
+    if (isMounted.current) {
+      const json = JSON.stringify(items);
+      localStorage.setItem("cart", json);
+    }
+    isMounted.current = true;
+  }, [items]);
 
   return (
     <div className="header">
