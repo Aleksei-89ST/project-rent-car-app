@@ -1,4 +1,4 @@
-import { FC, useEffect } from "react";
+import { FC, useCallback, useEffect } from "react";
 import { useSelector } from "react-redux";
 import CarBlock from "../components/CarBlock";
 import Skeleton from "../components/CarBlock/Skeleton";
@@ -9,7 +9,7 @@ import { CarsSelectData, fetchCars } from "../redux/slices/carSlice";
 import {
   selectFilter,
   setCategoryId,
-  setCurrentPage
+  setCurrentPage,
 } from "../redux/slices/filterSlice";
 import { useAppDispatch } from "../redux/store";
 import "../scss/app.scss";
@@ -23,9 +23,9 @@ const Home: FC = () => {
     useSelector(selectFilter);
   const { items, status } = useSelector(CarsSelectData);
 
-  const onChangeCategory = (idx: number) => {
+  const onChangeCategory = useCallback((idx: number) => {
     dispatch(setCategoryId(idx));
-  };
+  }, []);
   const onChangePage = (page: number) => {
     dispatch(setCurrentPage(page));
   };
@@ -42,7 +42,7 @@ const Home: FC = () => {
         sortBy,
         category,
         search,
-        currentPage:String(currentPage),
+        currentPage: String(currentPage),
       })
     );
     window.scrollTo(0, 0);
@@ -85,7 +85,7 @@ const Home: FC = () => {
     getCars();
   }, [categoryId, sort.sortProperty, searchValue, currentPage]);
 
-  const cars = items.map((obj: any) => <CarBlock {...obj} key={obj.id}/>);
+  const cars = items.map((obj: any) => <CarBlock {...obj} key={obj.id} />);
   const skeletons = [...new Array(8)].map((_, index) => (
     <Skeleton key={index} />
   ));
