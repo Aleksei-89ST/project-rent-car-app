@@ -1,4 +1,4 @@
-import { FC, useEffect, useRef, useState } from "react";
+import { FC, memo, useEffect, useRef, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { setSort, SortPropertyEnum } from "../redux/slices/filterSlice";
 import { RootState } from "../redux/store";
@@ -17,7 +17,7 @@ export const sortList: TSortItem[] = [
   { name: "алфавиту(ASC)", sortProperty: SortPropertyEnum.TITLE_ASC },
 ];
 
-export const Sort: FC = () => {
+export const Sort: FC = memo(() => {
   //функция которая передаёт в redux action
   const dispatch = useDispatch();
   const sort = useSelector((state: RootState) => state.filter.sort);
@@ -75,6 +75,6 @@ export const Sort: FC = () => {
       )}
     </div>
   );
-};
+});
 
 export default Sort;

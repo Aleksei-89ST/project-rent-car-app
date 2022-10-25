@@ -1,4 +1,4 @@
-import { FC } from "react";
+import { FC, memo } from "react";
 
 const categories = ["Все", "спортивные", "седаны", "VIP", "джипы"];
 
@@ -7,7 +7,7 @@ export type CategoriesProps = {
   onChangeCategory: (idx: number) => void;
 };
 
-const Categories: FC<CategoriesProps> = ({
+const Categories: FC<CategoriesProps> = memo(({
   valueCategory,
   onChangeCategory,
 }) => {
@@ -27,6 +27,6 @@ const Categories: FC<CategoriesProps> = ({
       </ul>
     </div>
   );
-};
+});
 
 export default Categories;
