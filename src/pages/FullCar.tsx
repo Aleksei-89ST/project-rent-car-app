@@ -1,6 +1,7 @@
 import axios from "axios";
 import { FC, useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router";
+import { Link } from "react-router-dom";
 
 const FullCar: FC = () => {
   const [car, setCar] = useState<{
@@ -31,9 +32,12 @@ const FullCar: FC = () => {
   }
   return (
     <div className="container">
-      <img className="container" src={car.imageUrl} alt="fullcar"/>
+      <img className="container" src={car.imageUrl} alt="fullcar" />
       <h2>{car.title}</h2>
       <h3>1-day: {car.price} $ </h3>
+      <Link to="/">
+        <button className="button button--outline button--add">Назад</button>
+      </Link>
     </div>
   );
 };
