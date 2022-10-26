@@ -1,19 +1,48 @@
+import React, { Suspense } from "react";
 import { Route, Routes } from "react-router";
-import NotFoundBlock from "./components/NotFoundBlock";
 import MainLayout from "./layouts/MainLayout";
-import Cart from "./pages/Cart";
-import FullCar from "./pages/FullCar";
 import Home from "./pages/Home";
 import "./scss/app.scss";
+
+const Cart = React.lazy(
+  () => import(/*webpackChunkName: "Cart" */ "./pages/Cart")
+);
+const FullCar = React.lazy(
+  () => import(/*webpackChunkName: "FullCar" */ "./pages/FullCar")
+);
+const NotFound = React.lazy(
+  () => import(/*webpackChunkName: "NotFound" */ "./pages/NotFound")
+);
 
 function App() {
   return (
     <Routes>
       <Route path="/" element={<MainLayout />}>
         <Route path="" element={<Home />} />
-        <Route path="cart" element={<Cart />} />
-        <Route path="car/:id" element={<FullCar />} />
-        <Route path="*" element={<NotFoundBlock />} />
+        <Route
+          path="cart"
+          element={
+            <Suspense fallback={<div>...Загрузка</div>}>
+              <Cart />
+            </Suspense>
+          }
+        />
+        <Route
+          path="car/:id"
+          element={
+            <Suspense fallback={<div>...Загрузка</div>}>
+              <FullCar />
+            </Suspense>
+          }
+        />
+        <Route
+          path="*"
+          element={
+            <Suspense fallback={<div>...Загрузка</div>}>
+              <NotFound />
+            </Suspense>
+          }
+        />
       </Route>
     </Routes>
   );
