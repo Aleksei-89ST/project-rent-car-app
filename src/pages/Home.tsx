@@ -1,17 +1,17 @@
 import { FC, useCallback, useEffect } from "react";
 import { useSelector } from "react-redux";
-import CarBlock from "../components/CarBlock";
-import Skeleton from "../components/CarBlock/Skeleton";
-import Categories from "../components/Categories";
-import Pagination from "../components/Pagination";
-import Sort from "../components/Sort";
 import { fetchCars } from "../redux/car/asyncActions";
 import { CarsSelectData } from "../redux/car/selectors";
 import { selectFilter } from "../redux/filter/selectors";
 import { setCategoryId, setCurrentPage } from "../redux/filter/slice";
-
-
 import { useAppDispatch } from "../redux/store";
+import {
+  CarBlock,
+  Skeleton,
+  Categories,
+  Pagination,
+  Sort,
+} from "../components";
 import "../scss/app.scss";
 
 const Home: FC = () => {
